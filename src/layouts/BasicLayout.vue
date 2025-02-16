@@ -2,7 +2,7 @@
 import {ref} from "vue";
 import {showToast} from "vant";
 import Index from "../pages/Index.vue";
-import Team from "../pages/Team.vue";
+import Team from "../pages/TeamPage.vue";
 import {useRouter} from "vue-router";
 
 
