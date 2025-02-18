@@ -1,12 +1,33 @@
 <script setup lang="ts">
-import {ref} from "vue";
 import {showToast} from "vant";
-import Index from "../pages/Index.vue";
-import Team from "../pages/TeamPage.vue";
 import {useRouter} from "vue-router";
+import {ref} from "vue";
+import routes from '../config/route.ts'
+
 
 
 const router = useRouter()
+
+
+const DEFAULT_TITLE = '伙伴匹配'
+
+
+const title = ref(DEFAULT_TITLE)
+
+
+
+
+router.beforeEach((to, from) => {
+
+  const toPath = to.path
+  const route = routes.find((route)=>{
+    return toPath == route.path
+  })
+
+  title.value = route?.title ?? DEFAULT_TITLE
+
+})
+
 
 const onClickLeft = () => {
   router.back()
@@ -18,13 +39,18 @@ const onClickRight = () => {
 }
 
 
-const onChange = (index:string) => showToast(`标签 ${index}`);
+// const onChange = (index:string) => showToast(`标签 ${index}`);
+const onChange = ()=>{
+
+}
+
+
 
 </script>
 
 <template>
   <van-nav-bar
-      title="标题"
+      :title="title"
       left-arrow
       @click-left="onClickLeft"
       @click-right="onClickRight"

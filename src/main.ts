@@ -1,19 +1,51 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import {createPinia} from "pinia";
 import App from './App.vue'
 
 // 1. 引入你需要的组件
-import {RadioGroup, Radio ,Stepper ,DatePicker ,Popup ,showSuccessToast, Empty,showFailToast,Toast ,Cell,Card , CellGroup,Button, NavBar,Icon,Tabbar,TabbarItem,Search,Divider,Tag,Collapse, CollapseItem,TreeSelect,Col, Row,Form, Field } from 'vant';
+import {
+    Skeleton,
+    SkeletonTitle,
+    SkeletonImage,
+    SkeletonAvatar,
+    SkeletonParagraph,
+    Switch,
+    RadioGroup,
+    Radio,
+    Stepper,
+    DatePicker,
+    Popup,
+    showSuccessToast,
+    Empty,
+    showFailToast,
+    Toast,
+    Cell,
+    Card,
+    CellGroup,
+    Button,
+    NavBar,
+    Icon,
+    Tabbar,
+    TabbarItem,
+    Search,
+    Divider,
+    Tag,
+    Collapse,
+    CollapseItem,
+    TreeSelect,
+    Col,
+    Row,
+    Form,
+    Field
+} from 'vant';
 // 2. 引入组件样式
 import 'vant/lib/index.css';
 
 const app = createApp(App);
 
-import {  createRouter ,createWebHashHistory} from 'vue-router'
+import {createRouter, createWebHashHistory} from 'vue-router'
 
 import routes from "./config/route.ts";
-
-
 
 
 const router = createRouter({
@@ -26,6 +58,12 @@ app.use(Button);
 app.use(RadioGroup);
 app.use(Radio);
 app.use(Stepper);
+app.use(Skeleton);
+app.use(SkeletonTitle);
+app.use(SkeletonImage);
+app.use(SkeletonAvatar);
+app.use(SkeletonParagraph);
+app.use(Switch);
 app.use(NavBar);
 app.use(Icon);
 app.use(Tabbar);

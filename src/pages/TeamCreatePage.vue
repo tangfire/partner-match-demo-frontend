@@ -9,22 +9,6 @@ import {ref} from "vue";
 
 var router = useRouter();
 
-const listMyJoinTeams = async (val = '') => {
-  const res = await myAxios.get("/team/list/my/join",{
-    params:{
-      searchText:val,
-      pageNum: 1,
-    }
-  });
-
-  if (res?.code === 0){
-    myJoinTeamList.value = res.data;
-  }else{
-    showFailToast('加载队伍失败,请刷新重试')
-  }
-}
-
-
 // 跳转到加入队伍页面
 const doAddTeam = ()=>{
   router.push({
@@ -36,9 +20,6 @@ const doAddTeam = ()=>{
 
 
 const teamList = ref([])
-const myJoinTeamList = ref([])
-
-
 
 const listTeams = async (val = '') => {
   const res = await myAxios.get("/team/list",{
@@ -56,7 +37,7 @@ const listTeams = async (val = '') => {
 }
 
 onMounted( ()=>{
-   listTeams()
+  listTeams()
 })
 
 
@@ -64,27 +45,28 @@ onMounted( ()=>{
 const searchText = ref('')
 
 const onSearch =  (val)=>{
-   listTeams(val)
+  listTeams(val)
 }
 
 
 </script>
 
 <template>
-<div id="teamPage">
-  <van-search
-      v-model="searchText"
-      placeholder="搜索队伍"
-      @search="onSearch"
-  />
+  <div id="teamPage">
+    <van-search
+        v-model="searchText"
+        placeholder="搜索队伍"
+        @search="onSearch"
+    />
 
-<!--  <van-button type="primary" @click="doJoinTeam">加入队伍</van-button>-->
-  <van-button block plain hairline type="primary" @click="doAddTeam">创建队伍</van-button>
 
-  <team-cart-list :team-list="teamList" ></team-cart-list>
-  <van-empty v-if="teamList?.length < 1" image="search" description="数据为空"/>
+<!--    <van-button type="primary" @click="doAddTeam">创建队伍</van-button>-->
+    <van-button block plain hairline type="primary" @click="doAddTeam">创建队伍</van-button>
 
-</div>
+    <team-cart-list :team-list="teamList"></team-cart-list>
+    <van-empty v-if="teamList?.length < 1" image="search" description="数据为空"/>
+
+  </div>
 </template>
 
 <style scoped>
