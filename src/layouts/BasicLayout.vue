@@ -15,8 +15,9 @@ const DEFAULT_TITLE = '伙伴匹配'
 const title = ref(DEFAULT_TITLE)
 
 
-
-
+/**
+ * 根据路由切换标题
+ */
 router.beforeEach((to, from) => {
 
   const toPath = to.path
