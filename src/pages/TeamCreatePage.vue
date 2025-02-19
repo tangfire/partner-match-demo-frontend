@@ -22,7 +22,7 @@ const doAddTeam = ()=>{
 const teamList = ref([])
 
 const listTeams = async (val = '') => {
-  const res = await myAxios.get("/team/list",{
+  const res = await myAxios.get("/team/list/my/create",{
     params:{
       searchText:val,
       pageNum: 1,

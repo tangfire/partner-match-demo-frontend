@@ -10,9 +10,6 @@ import {ref} from "vue";
 var router = useRouter();
 
 
-
-
-
 const teamList = ref([])
 
 const listTeams = async (val = '') => {
@@ -25,6 +22,7 @@ const listTeams = async (val = '') => {
 
   if (res?.code === 0){
     teamList.value = res.data;
+    console.log(teamList);
   }else{
     showFailToast('加载队伍失败,请刷新重试')
   }

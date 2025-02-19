@@ -7,6 +7,9 @@ const user = ref();
 
 onMounted(async ()=>{
   user.value=await getCurrentUser();
+
+
+
 })
 
 const router = useRouter();

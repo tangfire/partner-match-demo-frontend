@@ -1,9 +1,10 @@
 import {createApp} from 'vue'
 import {createPinia} from "pinia";
 import App from './App.vue'
-
+import '../global.css'
 // 1. 引入你需要的组件
 import {
+    FloatingBubble,
     Skeleton,
     SkeletonTitle,
     SkeletonImage,
@@ -18,6 +19,7 @@ import {
     showSuccessToast,
     Empty,
     showFailToast,
+    Dialog,
     Toast,
     Cell,
     Card,
@@ -36,25 +38,30 @@ import {
     Col,
     Row,
     Form,
-    Field
+    Field,
+    Tab, Tabs
 } from 'vant';
 // 2. 引入组件样式
 import 'vant/lib/index.css';
 
 const app = createApp(App);
 
-import {createRouter, createWebHashHistory} from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 
 import routes from "./config/route.ts";
 
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    // history: createWebHashHistory(),
+    history: createWebHistory(),
     routes,
 })
 
 // 3. 注册你需要的组件
 app.use(Button);
+app.use(Tab)
+app.use(Dialog)
+app.use(Tabs)
 app.use(RadioGroup);
 app.use(Radio);
 app.use(Stepper);
@@ -76,6 +83,7 @@ app.use(Collapse)
 app.use(CollapseItem)
 app.use(TreeSelect)
 app.use(router);
+app.use(FloatingBubble)
 app.use(Row)
 app.use(Col)
 app.use(Cell)

@@ -4,7 +4,8 @@ import {teamStatusEnum} from "../constants/team";
 import myAxios from "../plugins/myAxios";
 import {showFailToast, showSuccessToast, Toast} from "vant";
 import defaultTeamPhoto from '../assets/001.jpg'
-import {useCurrentUserStore} from "../stores/userStore.ts";
+
+import {showConfirmDialog} from 'vant';
 import {getCurrentUser} from "../services/user.ts";
 import {onMounted} from "vue";
 import {ref} from "vue";
@@ -19,13 +20,23 @@ const props = withDefaults(defineProps<TeamCardListProps>(), {
   teamList: () => [],
 });
 
-//队伍列表加入队伍
-const doJoinTeam = async (id: number) => {
+/**
+ * 加入队伍
+ */
+const doJoinTeam = async () => {
+
+  if (!joinIdTeam.value){
+    return;
+  }
+
+
   const res = await myAxios.post("/team/join", {
-    teamId: id
+    teamId: joinIdTeam.value,
+    password:password.value,
   });
   if (res?.code === 0) {
     showSuccessToast("加入成功")
+    doJoinCancel();
   } else {
     showFailToast("加入失败" + (res.description ? `， ${res.description} ` : ''));
   }
@@ -62,9 +73,9 @@ const doQuitTeam = async (id: number) => {
     teamId: id
   });
   if (res?.code === 0) {
-    Toast.success('操作成功');
+    showSuccessToast('操作成功');
   } else {
-    Toast.fail('操作失败' + (res.description ? `，${res.description}` : ''));
+    showFailToast('操作失败' + (res.description ? `，${res.description}` : ''));
   }
 }
 
@@ -77,14 +88,34 @@ const doDeleteTeam = async (id: number) => {
     id
   });
   if (res?.code === 0) {
-    Toast.success('操作成功');
+    showSuccessToast('操作成功');
   } else {
-    Toast.fail('操作失败' + (res.description ? `，${res.description}` : ''));
+    showFailToast('操作失败' + (res.description ? `，${res.description}` : ''));
   }
 }
 
 
 // todo 加入有密码的房间,要指定密码
+
+const showPasswordDialog = ref(false)
+const password = ref('')
+const joinIdTeam = ref(0)
+
+
+const preJoinTeam = (team:TeamType) =>{
+  joinIdTeam.value = team.id;
+  if (team.status === 0){
+    doJoinTeam();
+  }else{
+    showPasswordDialog.value = true;
+  }
+}
+
+const doJoinCancel = ()=>{
+  joinIdTeam.value = 0;
+  password.value = '';
+}
+
 
 </script>
 
@@ -109,7 +140,7 @@ const doDeleteTeam = async (id: number) => {
       </template>
       <template #bottom>
         <div>
-          {{ '最大人数:' + team.maxNum }}
+          {{ `队伍人数: ${team.hasJoinNum}/${team.maxNum}` }}
         </div>
         <div>
           {{ '过期时间:' + formatTime(team.expireTime) }}
@@ -120,7 +151,7 @@ const doDeleteTeam = async (id: number) => {
       </template>
       <template #footer>
         <van-button v-if="team.userId !== currentUser?.id && !team.hasJoin" size="mini" plain type="primary"
-                    @click="doJoinTeam(team.id)">加入队伍
+                    @click="preJoinTeam(team)">加入队伍
         </van-button>
         <van-button v-if="team.userId === currentUser?.id" size="mini" plain @click="doUpdateTeam(team.id)">更新队伍
         </van-button>
@@ -136,6 +167,9 @@ const doDeleteTeam = async (id: number) => {
       </template>
 
     </van-card>
+    <van-dialog v-model:show="showPasswordDialog" title="请输入密码" show-cancel-button @confirm="doJoinTeam" @cancel="doJoinCancel" >
+      <van-field v-model="password" placeholder="请输入密码"/>
+    </van-dialog>
   </div>
 </template>
 
