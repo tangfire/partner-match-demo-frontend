@@ -12,6 +12,10 @@ const userList = ref([]); //用户列表
 const loading = ref(true);
 
 
+// onMounted(() => {
+//   alert(process.env.NODE_ENV)
+// })
+
 /**
  * 加载数据
  */
